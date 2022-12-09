@@ -4,30 +4,48 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import Loader from "./Shared/Loader";
-
-export default function Assignment1() {
-  const { authLoading, setAuthLoading, loginWithEmail, setActiveUser } =
+export default function Register() {
+  const { authLoading, setAuthLoading, registerWithEmail, setActiveUser } =
     useContext(userContext);
 
-  const handleLogin = (e) => {
+  const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
 
     //Inputs
     const email = form.email.value;
     const password = form.password.value;
-    loginWithEmail(email, password)
+    const displayName = form.fullName.value;
+    const photoURL =
+      "https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png";
+
+    registerWithEmail(email, password)
       .then(({ user }) => {
         setActiveUser(user);
         form.reset();
-        toast.success("Successfully Logged In");
-        setAuthLoading(false);
+        toast.success("Successfully Registered");
+        const profileObj = { displayName, photoURL };
+        if (displayName && photoURL) {
+          toast("Updating Profile");
+          handleUpdate(profileObj);
+          form.reset();
+        }
       })
       .catch((error) => {
         console.error(error);
-        toast.error("Login FAILED");
+        toast.error("Register FAILED");
         setAuthLoading(false);
       });
+  };
+
+  // For adding displayName and photoURL
+  const handleUpdate = (profileObj) => {
+    updateUserProfile(profileObj)
+      .then(() => {
+        toast.success("Updating Profile");
+        setAuthLoading(false);
+      })
+      .catch((error) => console.error(error));
   };
 
   if (authLoading) {
@@ -37,11 +55,26 @@ export default function Assignment1() {
     <div>
       <section className="flex justify-center">
         <div className="w-full max-w-xs">
-          <h1 className="text-3xl fw-xl">Login</h1>
+          <h1 className="text-3xl fw-xl">Register</h1>
           <form
             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-            onSubmit={handleLogin}
+            onSubmit={handleRegister}
           >
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="fullName"
+              >
+                Full Name
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+                id="fullName"
+                type="text"
+                placeholder="Full Name"
+              />
+            </div>
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -73,18 +106,17 @@ export default function Assignment1() {
               />
             </div>
             <div className="my-3">
-              <p>Don't have an account?</p>
+              <p>Already have an account?</p>
               <p>
-                <Link to="/register"> Please, Register</Link>
+                <Link to="/"> Please, Login</Link>
               </p>
             </div>
             <div className="flex items-center justify-between">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
-                disabled={authLoading}
               >
-                Sign In
+                Register
               </button>
             </div>
           </form>

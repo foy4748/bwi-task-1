@@ -5,7 +5,11 @@ export default function NavBar() {
       <ul className="flex justify-center">
         <NavLink to="/">
           {" "}
-          <li className="m-4">Assignment 1</li>
+          <li className="m-4">Login</li>
+        </NavLink>
+        <NavLink to="/crud">
+          {" "}
+          <li className="m-4">Add / Remove User</li>
         </NavLink>
         <NavLink to="/assignment-2">
           {" "}

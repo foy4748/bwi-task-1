@@ -3,6 +3,9 @@ import { createBrowserRouter } from "react-router-dom";
 import Assignment1 from "../Pages/Assignment1";
 import Assignment2 from "../Pages/Assignment2";
 
+import Register from "../Pages/Register";
+import CRUD from "../Pages/CRUD";
+
 import MainLayout from "../Pages/Shared/MainLayout";
 
 const routerObj = [
@@ -13,6 +16,14 @@ const routerObj = [
       {
         path: "/",
         element: <Assignment1 />,
+      },
+      {
+        path: "/crud",
+        element: <CRUD />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
       {
         path: "/assignment-2",

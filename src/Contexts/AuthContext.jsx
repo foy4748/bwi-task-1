@@ -33,11 +33,13 @@ export default function AuthContextProvider({ children }) {
 
   // Sign In using Email / Password Handler
   const loginWithEmail = (email, password) => {
+    setAuthLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // Sign Up using Email / Password Handler
   const registerWithEmail = (email, password) => {
+    setAuthLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
@@ -55,7 +57,9 @@ export default function AuthContextProvider({ children }) {
   const value = {
     some: "loggedin",
     activeUser,
+    setActiveUser,
     authLoading,
+    setAuthLoading,
     loginWithEmail,
     registerWithEmail,
     logOut,
